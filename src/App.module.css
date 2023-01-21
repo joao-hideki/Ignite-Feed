@@ -4,6 +4,6 @@
     padding: 0 1rem;
     display: grid;
     grid-template-columns: 256px 1fr;
-    gap: 32rem;
+    gap: 2rem;
     align-items: flex-start;
 }
