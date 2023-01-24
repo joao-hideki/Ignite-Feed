@@ -1,10 +1,14 @@
 import { ThumbsUp, Trash } from 'phosphor-react';
 import styles from './Comment.module.css';
+import { Avatar } from './Avatar';
 
 export function Comment() {
     return(
         <div className={styles.comment}>
-            <img src='https://gcavocats.ca/wp-content/uploads/2018/09/man-avatar-icon-flat-vector-19152370-1.jpg'/>
+            <Avatar
+                hasBorder={false} 
+                imageUrl='https://gcavocats.ca/wp-content/uploads/2018/09/man-avatar-icon-flat-vector-19152370-1.jpg'
+            />
             <div className={styles.commentBox}>
                 <div className={styles.commentContent}>
                     <header>
