@@ -3,17 +3,29 @@ import { format, formatDistanceToNow } from 'date-fns';
 import { Avatar } from './Avatar';
 import { Comment } from './Comment';
 import ptBr from 'date-fns/locale/pt-BR'
+import { useState } from 'react';
 
 export function Post({author, content, publishedAt}) {
+    const [comments, setComments] = useState([
+        'Muito bom!'
+    ]);
+    const [newComment, setNewComment] = useState('');
+
     const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
         locale: ptBr  
     });
     const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
         locale: ptBr,
         addSuffix: true
-    })
+    });
+
+    function handleCreateNewComment(event) {
+        event.preventDefault();
+        setComments([...comments, newComment]);
+        setNewComment('');
+    }
  
-    return(
+    return( 
         <article className={styles.post}>  
             <header>
                 <div className={styles.author}>
@@ -33,26 +45,34 @@ export function Post({author, content, publishedAt}) {
 
             <div className={styles.content}>
                 {content.map((line) => {
-                    if(line.type === 'paragraph') {
+                    if (line.type === 'paragraph') {
                         return <p>{line.content}</p>
-                    } else if(line.type === 'link') {
+                    } else if (line.type === 'link') {
                         return <p><a href='#'>{line.content}</a></p>
                     }
                 })}
             </div>
 
-            <form className={styles.commentForm}>
+            <form 
+                className={styles.commentForm}
+                onSubmit={handleCreateNewComment}
+            >
                 <strong>Deixe seu feedback</strong>
-                <textarea placeholder='Deixe um comentário' />
+                <textarea 
+                    name='comment' 
+                    placeholder='Deixe um comentário' 
+                    value={newComment}
+                    onChange={(e) => setNewComment(e.target.value)}
+                />
                 <footer>
                     <button type='submit'>Publicar</button>
                 </footer>
             </form>
 
             <div className={styles.commentList}>
-                <Comment />
-                <Comment />
-                <Comment />
+                {comments.map((comment) => (
+                    <Comment content={comment} />
+                ))}
             </div>
         </article>
     )
