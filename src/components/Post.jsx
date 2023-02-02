@@ -6,9 +6,7 @@ import ptBr from 'date-fns/locale/pt-BR'
 import { useState } from 'react';
 
 export function Post({author, content, publishedAt}) {
-    const [comments, setComments] = useState([
-        'Muito bom!'
-    ]);
+    const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
 
     const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
@@ -23,6 +21,13 @@ export function Post({author, content, publishedAt}) {
         event.preventDefault();
         setComments([...comments, newComment]);
         setNewComment('');
+    }
+
+    function deleteComment(commentToDelete) {
+        const commentsWithoutDeletedOne = comments.filter(
+            (comment) => comment !== commentToDelete
+        );
+        setComments(commentsWithoutDeletedOne)
     }
  
     return( 
@@ -74,6 +79,7 @@ export function Post({author, content, publishedAt}) {
                     <Comment 
                         key={comment}
                         content={comment} 
+                        onDeleteComment={deleteComment}
                     />
                 ))}
             </div>
